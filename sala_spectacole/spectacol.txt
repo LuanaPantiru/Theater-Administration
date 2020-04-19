@@ -1,0 +1,6 @@
+Lala,Magna,23.0,12.3.2020
+Enigmaticii,Aula,10.0,18.4.2020
+Movies,Palatului,50.0,25.4.2020
+Geneva,Aula,23.0,19.5.2020
+Lights,Magna,10.0,16.2.2021
+Pink,Palatului,100.0,12.4.2021

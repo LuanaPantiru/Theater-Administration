@@ -1,0 +1,4 @@
+Lala,LocBalcon,2,R1,Pantiru,Luana,13.799999999999999
+Movies,LocLoja,1,R5,Sandu,Andrei,65.0
+Geneva,LocCategoria2,5,R2,Avadanei,Antonia,18.4
+Geneva,LocCategoria2,4,R2,Avadanei,Antonia,18.4
