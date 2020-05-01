@@ -23,53 +23,42 @@ public class Sala implements Pret {
     private Integer locuriBalcon;
     private Integer randuriBalcon;
 
-    void aranjareCategorie(String categorie, Integer nrLocuri, Integer nrRanduri)
-    {
-        if (categorie == "LocCategoria1")
-        {
+    void aranjareCategorie(String categorie, Integer nrLocuri, Integer nrRanduri) {
+        if (categorie.equals("LocCategoria1")) {
             List<LocCategoria1> c1 = new ArrayList<>();
-            for (Integer i = 0 ; i<nrRanduri;i++)
-                for (Integer j =0; j< nrLocuri/nrRanduri;j++)
-                {
-                    LocCategoria1 l = new LocCategoria1(j+1,"R"+(i+1));
+            for (Integer i = 0; i < nrRanduri; i++)
+                for (Integer j = 0; j < nrLocuri / nrRanduri; j++) {
+                    LocCategoria1 l = new LocCategoria1(j + 1, "R" + (i + 1));
                     c1.add(l);
                 }
-            asezare.put(categorie,c1);
-        }
-        else if (categorie == "LocCategoria2")
-        {
-            List<LocCategoria1>c2 = new ArrayList<>();
-            for (Integer i = 0 ; i<nrRanduri;i++)
-                for (Integer j =0; j< nrLocuri/nrRanduri;j++)
-                {
-                    LocCategoria2 l = new LocCategoria2(j+1,"R"+(i+1));
+            asezare.put(categorie, c1);
+        } else if (categorie.equals("LocCategoria2")) {
+            List<LocCategoria1> c2 = new ArrayList<>();
+            for (Integer i = 0; i < nrRanduri; i++)
+                for (Integer j = 0; j < nrLocuri / nrRanduri; j++) {
+                    LocCategoria2 l = new LocCategoria2(j + 1, "R" + (i + 1));
                     c2.add(l);
                 }
-            asezare.put(categorie,c2);
-        }
-        else if (categorie == "LocLoja")
-        {
+            asezare.put(categorie, c2);
+        } else if (categorie.equals("LocLoja")) {
             List<LocCategoria1> c3 = new ArrayList<>();
-            for (Integer i = 0 ; i<nrRanduri;i++)
-                for (Integer j =0; j< nrLocuri/nrRanduri;j++)
-                {
-                    LocLoja l = new LocLoja(j+1,"R"+(i+1));
+            for (Integer i = 0; i < nrRanduri; i++)
+                for (Integer j = 0; j < nrLocuri / nrRanduri; j++) {
+                    LocLoja l = new LocLoja(j + 1, "R" + (i + 1));
                     c3.add(l);
                 }
-            asezare.put(categorie,c3);
-        }
-        else
-        {
+            asezare.put(categorie, c3);
+        } else {
             List<LocCategoria1> c4 = new ArrayList<>();
-            for (Integer i = 0 ; i<nrRanduri;i++)
-                for (Integer j =0; j< nrLocuri/nrRanduri;j++)
-                {
-                    LocBalcon l = new LocBalcon(j+1,"R"+(i+1));
+            for (Integer i = 0; i < nrRanduri; i++)
+                for (Integer j = 0; j < nrLocuri / nrRanduri; j++) {
+                    LocBalcon l = new LocBalcon(j + 1, "R" + (i + 1));
                     c4.add(l);
                 }
-            asezare.put(categorie,c4);
+            asezare.put(categorie, c4);
         }
     }
+
     public Sala(String nume, Integer locuriCategoria1, Integer randuriCategoria1, Integer locuriCategoria2, Integer randuriCategoria2, Integer locuriLoja, Integer randuriLoja, Integer locuriBalcon, Integer randuriBalcon) {
         this.nume = nume;
         this.locuriCategoria1 = locuriCategoria1;
@@ -80,10 +69,10 @@ public class Sala implements Pret {
         this.randuriLoja = randuriLoja;
         this.locuriBalcon = locuriBalcon;
         this.randuriBalcon = randuriBalcon;
-        aranjareCategorie("LocCategoria1",locuriCategoria1,randuriCategoria1);
-        aranjareCategorie("LocCategoria2",locuriCategoria2,randuriCategoria2);
-        aranjareCategorie("LocLoja",locuriLoja,randuriLoja);
-        aranjareCategorie("LocBalcon",locuriBalcon,randuriBalcon);
+        aranjareCategorie("LocCategoria1", locuriCategoria1, randuriCategoria1);
+        aranjareCategorie("LocCategoria2", locuriCategoria2, randuriCategoria2);
+        aranjareCategorie("LocLoja", locuriLoja, randuriLoja);
+        aranjareCategorie("LocBalcon", locuriBalcon, randuriBalcon);
     }
 
     public Map<String, List<LocCategoria1>> getAsezare() {
@@ -121,8 +110,8 @@ public class Sala implements Pret {
     public Integer getRanduriBalcon() {
         return randuriBalcon;
     }
-    public List<LocCategoria1> categorie(String categorie)
-    {
+
+    public List<LocCategoria1> categorie(String categorie) {
         return asezare.get(categorie);
     }
 
@@ -132,8 +121,7 @@ public class Sala implements Pret {
 
     @Override
     public void setarePret(double pret) {
-        for(String categorie : asezare.keySet())
-        {
+        for (String categorie : asezare.keySet()) {
             List<LocCategoria1> c1 = asezare.get(categorie);
             for (LocCategoria1 l : c1)
                 l.setPret(pret);

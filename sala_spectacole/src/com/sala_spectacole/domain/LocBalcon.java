@@ -7,6 +7,6 @@ public class LocBalcon extends LocCategoria1 {
 
     @Override
     public void setPret(double pret) {
-        super.setPret(pret-0.4*pret);
+        super.setPret(pret - 0.4 * pret);
     }
 }

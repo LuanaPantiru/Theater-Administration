@@ -3,23 +3,23 @@ package com.sala_spectacole.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Spectacol implements Comparable<Spectacol>{
+public class Spectacol implements Comparable<Spectacol> {
     private String numeSpectacol;
-    private Sala s;
+    private Sala sala;
     private double pretNominal;
     private Integer zi;
     private Integer luna;
     private Integer an;
-    private List<LocRezervat> rezervat = new ArrayList<>();
+    private List<LocRezervat> locuriRezervate = new ArrayList<>();
 
-    public Spectacol(String numeSpectacol, Sala s, double pret, Integer zi, Integer luna, Integer an) {
+    public Spectacol(String numeSpectacol, Sala sala, double pret, Integer zi, Integer luna, Integer an) {
         this.numeSpectacol = numeSpectacol;
-        this.s = s;
+        this.sala = sala;
         this.pretNominal = pret;
         this.zi = zi;
         this.luna = luna;
         this.an = an;
-        this.s.setarePret(pret);
+        this.sala.setarePret(pret);
     }
 
     public String getNumeSpectacol() {
@@ -42,31 +42,26 @@ public class Spectacol implements Comparable<Spectacol>{
         return an;
     }
 
-    public Sala getS() {
-        return s;
+    public Sala getSala() {
+        return sala;
     }
 
-    public List<LocRezervat> getRezervat() {
-        return rezervat;
+    public List<LocRezervat> getLocuriRezervateRezervat() {
+        return locuriRezervate;
     }
 
-    public void addBilet(LocRezervat l)
-    {
-        rezervat.add(l);
+    public void addBilet(LocRezervat loc) {
+        locuriRezervate.add(loc);
     }
 
     @Override
     public int compareTo(Spectacol spectacol) {
-        if(an.equals(spectacol.getAn()))
-        {
-            if(luna.equals(spectacol.getLuna()))
-            {
+        if (an.equals(spectacol.getAn())) {
+            if (luna.equals(spectacol.getLuna())) {
                 return zi.compareTo(spectacol.getZi());
-            }
-            else
+            } else
                 return luna.compareTo(spectacol.getLuna());
-        }
-        else
+        } else
             return an.compareTo(spectacol.getAn());
     }
 }

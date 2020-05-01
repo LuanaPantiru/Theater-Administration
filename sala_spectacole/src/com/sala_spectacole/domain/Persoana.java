@@ -6,7 +6,7 @@ public class Persoana {
 
     public Persoana(String nume, String prenume) {
         this.nume = nume;
-        this.prenume=prenume;
+        this.prenume = prenume;
     }
 
     public String getNume() {

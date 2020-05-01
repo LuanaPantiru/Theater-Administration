@@ -1,25 +1,25 @@
 package com.sala_spectacole.domain;
 
 public class LocRezervat {
-    private LocCategoria1 l;
-    private Persoana p;
+    private LocCategoria1 loc;
+    private Persoana persoana;
     private double pret;
 
-    public LocRezervat(LocCategoria1 l, Persoana p, double pret) {
-        this.l = l;
-        this.p = p;
+    public LocRezervat(LocCategoria1 loc, Persoana persoana, double pret) {
+        this.loc = loc;
+        this.persoana = persoana;
         this.pret = pret;
     }
 
-    public LocCategoria1 getL() {
-        return l;
+    public LocCategoria1 getLoc() {
+        return loc;
     }
 
     public double getPret() {
         return pret;
     }
 
-    public Persoana getP() {
-        return p;
+    public Persoana getPersoana() {
+        return persoana;
     }
 }

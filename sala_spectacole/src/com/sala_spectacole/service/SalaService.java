@@ -8,33 +8,33 @@ import java.util.List;
 
 public class SalaService {
     private static SalaService instance = null;
-    public static SalaService getInstance(){
-        if(instance == null)
+
+    public static SalaService getInstance() {
+        if (instance == null)
             instance = new SalaService();
         return instance;
     }
-    public static void readSalaFromFile()
-    {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("sala.txt"))){
+
+    public void readSalaFromFile(OrganizareSpectacole organizare) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("sala.txt"))) {
             String currentLine;
-            while((currentLine = bufferedReader.readLine()) != null)
-            {
+            while ((currentLine = bufferedReader.readLine()) != null) {
                 String[] dataFields = currentLine.split(",");
-                Sala s = new Sala(dataFields[0],Integer.parseInt(dataFields[1]),Integer.parseInt(dataFields[2]),Integer.parseInt(dataFields[3]),Integer.parseInt(dataFields[4]),Integer.parseInt(dataFields[5]),Integer.parseInt(dataFields[6]),Integer.parseInt(dataFields[7]),Integer.parseInt(dataFields[8]));
-                OrganizareSpectacole.getSali().add(s);
+                Sala s = new Sala(dataFields[0], Integer.parseInt(dataFields[1]), Integer.parseInt(dataFields[2]), Integer.parseInt(dataFields[3]), Integer.parseInt(dataFields[4]), Integer.parseInt(dataFields[5]), Integer.parseInt(dataFields[6]), Integer.parseInt(dataFields[7]), Integer.parseInt(dataFields[8]));
+                organizare.getSali().add(s);
             }
-        }catch(IOException e){
-            System.out.println("Could not read data from file: "+e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Could not read data from file: " + e.getMessage());
             return;
         }
         System.out.println("Successfully read sala.txt");
     }
-    public static void writeSalaToFile()
-    {
-        List<Sala> sali = OrganizareSpectacole.getSali();
+
+    public void writeSalaToFile(OrganizareSpectacole organizare) {
+        List<Sala> sali = organizare.getSali();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("files/sala.txt"))) {
-            for (Sala s : sali) {
-                bufferedWriter.write(s.getNume()+","+s.getLocuriCategoria1()+","+s.getRanduriCategoria1()+","+s.getLocuriCategoria2()+","+s.getRanduriCategoria2()+","+s.getLocuriLoja()+","+s.getRanduriLoja()+","+s.getLocuriBalcon()+","+s.getRanduriBalcon());
+            for (Sala sala : sali) {
+                bufferedWriter.write(sala.getNume() + "," + sala.getLocuriCategoria1() + "," + sala.getRanduriCategoria1() + "," + sala.getLocuriCategoria2() + "," + sala.getRanduriCategoria2() + "," + sala.getLocuriLoja() + "," + sala.getRanduriLoja() + "," + sala.getLocuriBalcon() + "," + sala.getRanduriBalcon());
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {

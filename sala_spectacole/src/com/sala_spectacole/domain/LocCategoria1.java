@@ -1,14 +1,16 @@
 package com.sala_spectacole.domain;
 
-public class LocCategoria1{
+public class LocCategoria1 {
     private Integer nrLoc;
     private String nrRand;
     protected double pret;
-    public LocCategoria1(Integer nrLoc,String nrRand){
+
+    public LocCategoria1(Integer nrLoc, String nrRand) {
         this.nrLoc = nrLoc;
         this.nrRand = nrRand;
     }
-    public Integer getNrLoc(){
+
+    public Integer getNrLoc() {
         return nrLoc;
     }
 

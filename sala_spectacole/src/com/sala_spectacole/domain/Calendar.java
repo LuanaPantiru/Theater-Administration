@@ -1,6 +1,6 @@
 package com.sala_spectacole.domain;
 
-public class Calendar implements Comparable<Calendar>{
+public class Calendar implements Comparable<Calendar> {
     private Integer zi;
     private Integer luna;
     private Integer an;
@@ -44,28 +44,24 @@ public class Calendar implements Comparable<Calendar>{
     public void setNumeSpectacol(String numeSpectacol) {
         this.numeSpectacol = numeSpectacol;
     }
-    public boolean beforeDate(int zi, int luna,int an){
-        if(this.an.equals(an))
-        {
-            if(this.luna.equals(luna))
+
+    public boolean beforeDate(int zi, int luna, int an) {
+        if (this.an.equals(an)) {
+            if (this.luna.equals(luna))
                 return this.zi.compareTo(zi) <= 0;
-            return this.luna.compareTo(luna) <=0;
+            return this.luna.compareTo(luna) <= 0;
         }
-        return this.an.compareTo(an) <=0;
+        return this.an.compareTo(an) <= 0;
     }
 
     @Override
     public int compareTo(Calendar calendar) {
-        if(an.equals(calendar.getAn()))
-        {
-            if(luna.equals(calendar.getLuna()))
-            {
+        if (an.equals(calendar.getAn())) {
+            if (luna.equals(calendar.getLuna())) {
                 return zi.compareTo(calendar.getZi());
-            }
-            else
+            } else
                 return luna.compareTo(calendar.getLuna());
-        }
-        else
+        } else
             return an.compareTo(calendar.getAn());
     }
 }
