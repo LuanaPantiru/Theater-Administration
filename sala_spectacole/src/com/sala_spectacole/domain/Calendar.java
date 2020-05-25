@@ -54,6 +54,10 @@ public class Calendar implements Comparable<Calendar> {
         return this.an.compareTo(an) <= 0;
     }
 
+    public void printDate() {
+        System.out.println(numeSpectacol + " " + zi + "-" + luna + "-" + an);
+    }
+
     @Override
     public int compareTo(Calendar calendar) {
         if (an.equals(calendar.getAn())) {
