@@ -1,54 +1,77 @@
 package com.sala_spectacole.service;
 
-import com.sala_spectacole.domain.*;
+import com.sala_spectacole.domain.Calendar;
+import com.sala_spectacole.domain.LocCategoria1;
+import com.sala_spectacole.domain.Spectacol;
+import com.sala_spectacole.persistence.CalendarRepository;
+import com.sala_spectacole.persistence.SpectacolRepository;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class SpectacolService {
-    private static SpectacolService instance = null;
+    private static SpectacolService instance;
+    private final SpectacolRepository spectacolRepository = SpectacolRepository.getInstance();
+    private final CalendarRepository calendarRepository = CalendarRepository.getInstance();
+    private final SalaService salaService = SalaService.getInstance();
+
+    private SpectacolService() {
+    }
 
     public static SpectacolService getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new SpectacolService();
+        }
         return instance;
     }
 
-    public void readSpectacolFromFile(OrganizareSpectacole organizare) {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("spectacol.txt"))) {
-            String currentLine;
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                String[] dataFields = currentLine.split(",");
-                Sala s = organizare.findSala(dataFields[1]);
-                Sala sala = new Sala(s.getNume(), s.getLocuriCategoria1(), s.getRanduriCategoria1(), s.getLocuriCategoria2(), s.getRanduriCategoria2(), s.getLocuriLoja(), s.getRanduriLoja(), s.getLocuriBalcon(), s.getRanduriBalcon());
-                sala.setarePret(Double.parseDouble(dataFields[2]));
-                String[] data = dataFields[3].split("\\.");
-                Spectacol spect = new Spectacol(dataFields[0], sala, Double.parseDouble(dataFields[2]), Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
-                organizare.getSpectacoleActive().add(spect);
-
+    public void saveSpectacol(String numeSpectacol, String numeSala, Integer zi, Integer luna, Integer an, double pret) {
+        if (!spectacolRepository.verifSalaData(numeSala, zi, luna, an)) {
+            if (salaService.findSala(numeSala)) {
+                Spectacol spectacol = new Spectacol(numeSpectacol, numeSala, pret, zi, luna, an);
+                spectacolRepository.saveSpectacol(spectacol);
             }
-        } catch (IOException e) {
-            System.out.println("Could not read data from file: " + e.getMessage());
-            return;
         }
-        Collections.sort(organizare.getSpectacoleActive());
-        System.out.println("Successfully read spectacol.txt");
     }
 
-    public void writeSpectacolToFile(OrganizareSpectacole organizare) {
-        List<Spectacol> spectacole = new ArrayList<>(organizare.getSpectacoleInchise());
-        spectacole.addAll(organizare.getSpectacoleActive());
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("spectacol.txt"))) {
-            for (Spectacol spec : spectacole) {
-                bufferedWriter.write(spec.getNumeSpectacol() + "," + spec.getSala().getNume() + "," + spec.getPretNominal() + "," + spec.getZi() + "." + spec.getLuna() + "." + spec.getAn());
-                bufferedWriter.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Could not write data to file: " + e.getMessage());
-            return;
+    public boolean existSpectacol(String numeSpectacol) {
+        Spectacol spectacol = spectacolRepository.findSpectacol(numeSpectacol);
+        return spectacol.getNumeSpectacol() != null;
+    }
+
+    public Spectacol findSpectacol(String numeSpectacol) {
+        return spectacolRepository.findSpectacol(numeSpectacol);
+    }
+
+    public void printSpectacole() {
+        LocalDate dataLocala = LocalDate.now();
+        int zi = dataLocala.getDayOfMonth();
+        int luna = dataLocala.getMonthValue();
+        int an = dataLocala.getYear();
+        List<Calendar> spectacoleActive = calendarRepository.spectacoleActive(zi, luna, an);
+        for (Calendar spectacolData : spectacoleActive) {
+            spectacolData.printDate();
         }
-        System.out.println("Successfully wrote " + spectacole.size() + " shows!");
+    }
+
+    public List<String> salaSpectacole(String numeSala) {
+        return spectacolRepository.salaSpectacole(numeSala);
+    }
+
+    public void anulareSpectacol(String numeSpectacol) {
+        spectacolRepository.deleteSpectacol(numeSpectacol);
+    }
+
+    public Map<String, List<LocCategoria1>> salaSpectacol(String numeSpectacol) {
+        Spectacol spectacol = spectacolRepository.findSpectacol(numeSpectacol);
+        String numeSala = spectacol.getSala();
+        Map<String, List<LocCategoria1>> asezare = salaService.formaSala(numeSala);
+        salaService.setarePret(spectacol.getPretNominal(), asezare);
+        return asezare;
+    }
+
+    public void modificareSala(String numeSalaNou, String numeSalaVechi) {
+        spectacolRepository.updateSala(numeSalaNou, numeSalaVechi);
     }
 }
