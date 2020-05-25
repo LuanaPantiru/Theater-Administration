@@ -1,46 +1,88 @@
 package com.sala_spectacole.service;
 
+import com.sala_spectacole.domain.LocCategoria1;
+import com.sala_spectacole.domain.Sala;
+import com.sala_spectacole.persistence.SalaRepository;
 
-import com.sala_spectacole.domain.*;
-
-import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 public class SalaService {
-    private static SalaService instance = null;
+    private static SalaService instance;
+    private final SalaRepository salaRepository = SalaRepository.getInstance();
+
+    private SalaService() {
+    }
 
     public static SalaService getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new SalaService();
+        }
         return instance;
     }
 
-    public void readSalaFromFile(OrganizareSpectacole organizare) {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("sala.txt"))) {
-            String currentLine;
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                String[] dataFields = currentLine.split(",");
-                Sala s = new Sala(dataFields[0], Integer.parseInt(dataFields[1]), Integer.parseInt(dataFields[2]), Integer.parseInt(dataFields[3]), Integer.parseInt(dataFields[4]), Integer.parseInt(dataFields[5]), Integer.parseInt(dataFields[6]), Integer.parseInt(dataFields[7]), Integer.parseInt(dataFields[8]));
-                organizare.getSali().add(s);
-            }
-        } catch (IOException e) {
-            System.out.println("Could not read data from file: " + e.getMessage());
-            return;
-        }
-        System.out.println("Successfully read sala.txt");
+    public void saveSala(String numeSala, Integer locuriCategoria1, Integer randuriCategoria1,
+                         Integer locuriCategoria2, Integer randuriCatgoria2, Integer locuriLoja,
+                         Integer randuriLoja, Integer locuriBalcon, Integer randuriBalcon) {
+        Sala sala = new Sala(numeSala, locuriCategoria1, randuriCategoria1, locuriCategoria2, randuriCatgoria2,
+                locuriLoja, randuriLoja, locuriBalcon, randuriBalcon);
+        salaRepository.saveSala(sala);
     }
 
-    public void writeSalaToFile(OrganizareSpectacole organizare) {
-        List<Sala> sali = organizare.getSali();
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("files/sala.txt"))) {
-            for (Sala sala : sali) {
-                bufferedWriter.write(sala.getNume() + "," + sala.getLocuriCategoria1() + "," + sala.getRanduriCategoria1() + "," + sala.getLocuriCategoria2() + "," + sala.getRanduriCategoria2() + "," + sala.getLocuriLoja() + "," + sala.getRanduriLoja() + "," + sala.getLocuriBalcon() + "," + sala.getRanduriBalcon());
-                bufferedWriter.newLine();
+    public boolean findSala(String numeSala) {
+        Sala sala = salaRepository.selectSala(numeSala);
+        return sala.getNume() != null;
+    }
+
+    public void printSali() {
+        List<String> sali = salaRepository.sali();
+        if (sali.size() > 0) {
+            int i = 0;
+            for (String sala : sali) {
+                i += 1;
+                System.out.println(i + "." + sala);
             }
-        } catch (IOException e) {
-            System.out.println("Could not write data to file: " + e.getMessage());
-            return;
         }
-        System.out.println("Successfully wrote " + sali.size() + " theaters!");
+    }
+
+    public Map<String, List<LocCategoria1>> formaSala(String numeSala) {
+        Sala sala = salaRepository.selectSala(numeSala);
+        return salaRepository.formareSala(sala);
+    }
+
+    public void printSala(Map<String, List<LocCategoria1>> asezare, String numeSala) {
+        System.out.println(numeSala);
+        for (String zona : asezare.keySet()) {
+            System.out.println(zona);
+            List<LocCategoria1> categorie = asezare.get(zona);
+            String rand = "R1";
+            boolean ok = false;
+            for (LocCategoria1 loc : categorie) {
+                if (!ok) {
+                    System.out.print("(pret : " + loc.getPret() + " lei)\n");
+                    ok = true;
+                }
+                String nrRand = loc.getNrRand();
+                if (nrRand.compareTo(rand) == 0)
+                    System.out.print(loc.getNrLoc() + " ");
+                else {
+                    System.out.print("\n" + loc.getNrLoc() + " ");
+                    rand = nrRand;
+                }
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public void deleteSala(String numeSala) {
+        salaRepository.deleteSala(numeSala);
+    }
+
+    public void updateSala(String numeNou, String numeVechi) {
+        salaRepository.updateSala(numeNou, numeVechi);
+    }
+
+    public void setarePret(double pret, Map<String, List<LocCategoria1>> asezare) {
+        salaRepository.setarePret(pret, asezare);
     }
 }
