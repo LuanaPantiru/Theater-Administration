@@ -5,21 +5,22 @@ import java.util.List;
 
 public class Spectacol implements Comparable<Spectacol> {
     private String numeSpectacol;
-    private Sala sala;
+    private String numeSala;
     private double pretNominal;
     private Integer zi;
     private Integer luna;
     private Integer an;
-    private List<LocRezervat> locuriRezervate = new ArrayList<>();
 
-    public Spectacol(String numeSpectacol, Sala sala, double pret, Integer zi, Integer luna, Integer an) {
+    public Spectacol() {
+    }
+
+    public Spectacol(String numeSpectacol, String numeSala, double pret, Integer zi, Integer luna, Integer an) {
         this.numeSpectacol = numeSpectacol;
-        this.sala = sala;
+        this.numeSala = numeSala;
         this.pretNominal = pret;
         this.zi = zi;
         this.luna = luna;
         this.an = an;
-        this.sala.setarePret(pret);
     }
 
     public String getNumeSpectacol() {
@@ -42,16 +43,32 @@ public class Spectacol implements Comparable<Spectacol> {
         return an;
     }
 
-    public Sala getSala() {
-        return sala;
+    public String getSala() {
+        return numeSala;
     }
 
-    public List<LocRezervat> getLocuriRezervateRezervat() {
-        return locuriRezervate;
+    public void setNumeSpectacol(String numeSpectacol) {
+        this.numeSpectacol = numeSpectacol;
     }
 
-    public void addBilet(LocRezervat loc) {
-        locuriRezervate.add(loc);
+    public void setNumeSala(String numeSala) {
+        this.numeSala = numeSala;
+    }
+
+    public void setPretNominal(double pretNominal) {
+        this.pretNominal = pretNominal;
+    }
+
+    public void setZi(Integer zi) {
+        this.zi = zi;
+    }
+
+    public void setLuna(Integer luna) {
+        this.luna = luna;
+    }
+
+    public void setAn(Integer an) {
+        this.an = an;
     }
 
     @Override
