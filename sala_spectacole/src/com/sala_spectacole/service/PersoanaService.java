@@ -20,7 +20,7 @@ public class PersoanaService {
     }
 
     public void savePersoana(String cnp, String nume, String prenume) {
-        if (cnp.length() != 12) throw new NotGoodCNPException("CNP-ul nu are lungimea care trebuie.");
+        if (cnp.length() != 13) throw new NotGoodCNPException("CNP-ul nu are lungimea care trebuie.");
         else {
             Persoana pers = new Persoana(nume, prenume, cnp);
             persoanaRepository.savePersona(pers);
@@ -29,7 +29,7 @@ public class PersoanaService {
 
     public Persoana findPersoana(String cnp) {
         Persoana pers;
-        if (cnp.length() != 12) throw new NotGoodCNPException("CNP-ul nu are lungimea care trebuie.");
+        if (cnp.length() != 13) throw new NotGoodCNPException("CNP-ul nu are lungimea care trebuie.");
         else {
             pers = persoanaRepository.selectPerson(cnp);
         }
